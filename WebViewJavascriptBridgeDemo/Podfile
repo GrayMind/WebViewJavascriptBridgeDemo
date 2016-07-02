@@ -1,0 +1,8 @@
+target :WebViewJavascriptBridgeDemo do
+
+  pod 'Masonry'
+
+  pod 'MMPopupView'
+
+  pod 'WebViewJavascriptBridge'
+end

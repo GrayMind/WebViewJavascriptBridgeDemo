@@ -1,0 +1,19 @@
+PODS:
+  - Masonry (0.6.4)
+  - MMPopupView (1.6):
+    - Masonry
+  - WebViewJavascriptBridge (5.0.5)
+
+DEPENDENCIES:
+  - Masonry
+  - MMPopupView
+  - WebViewJavascriptBridge
+
+SPEC CHECKSUMS:
+  Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
+  MMPopupView: 49c06ca9600256baf263ee5e67d97334735db262
+  WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
+
+PODFILE CHECKSUM: 3628ff370cf5b35fe27c62c520bc8097d94f1fa5
+
+COCOAPODS: 1.0.1
