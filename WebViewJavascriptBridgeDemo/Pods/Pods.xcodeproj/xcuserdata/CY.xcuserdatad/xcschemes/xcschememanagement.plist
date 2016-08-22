@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>IQKeyboardManager.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MMPopupView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,17 +37,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>385B2729A896626681B0F8A886CF5BC9</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>53480ED0BE09FF49E34B1702D485CAAB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B1F582BCBB4986F3330DFE051C46D16C</key>
+		<key>55DBDD8B7D446F1D618F303A9FB53209</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B7124B951791D2A286AB0C8FA656EEC3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CAB564D654EA7AF13265662894C72250</key>
 		<dict>
 			<key>primary</key>
 			<true/>

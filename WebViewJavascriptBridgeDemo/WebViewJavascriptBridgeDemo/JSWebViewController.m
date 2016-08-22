@@ -7,19 +7,25 @@
 //
 
 #import "JSWebViewController.h"
-#import "NSObject+performSelector.h"
+
 #import <WebViewJavascriptBridge.h>
 #import <MMSheetView.h>
 #import "NSURLProtocolCustom.h"
 
 
 #import <CommonCrypto/CommonDigest.h>
+#import <JavaScriptCore/JavaScriptCore.h>
+
+
+#import "SiLinJSBridge.h"
 
 @interface JSWebViewController ()<UIWebViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property(nonatomic ,strong) UIWebView *webView;
 
 @property WebViewJavascriptBridge* bridge;
+
+@property(nonatomic ,strong) JSContext *context;
 
 @end
 
@@ -31,7 +37,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"reload" style:UIBarButtonItemStylePlain target:self action:@selector(reload)];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"call" style:UIBarButtonItemStylePlain target:self action:@selector(callHandler)];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"call" style:UIBarButtonItemStylePlain target:self action:@selector(callJSMethod)];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.webView = [[UIWebView alloc] init];
@@ -41,33 +48,29 @@
     
     [NSURLProtocol registerClass:[NSURLProtocolCustom class]];
     
-    [WebViewJavascriptBridge enableLogging];
     
-    _bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView];
-    [_bridge setWebViewDelegate:self];
-    
-    [_bridge registerHandler:@"testObjcCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"testObjcCallback called: %@", data);
-//        responseCallback(@"Response from testObjcCallback");
-        [self photo];
-    }];
-    
-    [_bridge callHandler:@"testJavascriptHandler" data:@{ @"foo":@"before ready" }];
-
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.1.106:3000/index.html"]];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.1.104:3000/mypa.html"]];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://csmobile.alipay.com/mypa/chat.htm?scene=app_mypa_robot"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.1.109:3000/index.html"]];
     [self.webView loadRequest:request];
-    
-    NSLog(@"%@",self.webView);
     
 }
 
--(void)reload {
+-(void)callJSMethod
+{
+    JSValue *value = self.context[@"area"];
+    [value callWithArguments:@[@4]];
+}
+
+
+-(void)reload
+{
     [self.webView reload];
 }
 
 
--(void)photo {
+-(void)photo
+{
     
     [MMPopupWindow sharedWindow].touchWildToHide = YES;
     MMSheetViewConfig *sheetConfig = [MMSheetViewConfig globalConfig];
@@ -121,13 +124,6 @@
     return imageHash;
 }
 
-- (void)callHandler
-{
-    id data = @{ @"greetingFromObjC": @"Hi there, JS!" };
-    [_bridge callHandler:@"testJavascriptHandler" data:data responseCallback:^(id response) {
-        NSLog(@"testJavascriptHandler responded: %@", response);
-    }];
-}
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
@@ -137,6 +133,38 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     NSLog(@"webViewDidFinishLoad");
+    
+    // 以 html title 设置 导航栏 title
+    self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    // Undocumented access to UIWebView's JSContext
+    self.context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+   
+    
+    
+    SiLinJSBridge *call = [[SiLinJSBridge alloc] init];
+    //将JSNativeMethod封装到JavaScript函数SiLinJSBridge中
+    self.context[@"SiLinJSBridge"] = call;
+    call.jsContext = self.context;
+    call.viewController = self;
+    
+    // 打印异常
+    self.context.exceptionHandler = ^(JSContext *context, JSValue *exceptionValue) {
+        context.exception = exceptionValue;
+        NSLog(@"%@", exceptionValue);
+    };
+    
+//    // 以 JSExport 协议关联 native 的方法
+//    self.context[@"app"] = self;
+//    
+//    // 以 block 形式关联 JavaScript function
+//    self.context[@"log"] = ^(NSString *str) {
+//        NSLog(@"%@", str);
+//    };
+//    //多参数
+//    self.context[@"mutiParams"] = ^(NSString *a,NSString *b,NSString *c) {
+//        NSLog(@"%@ %@ %@",a,b,c);
+//    };
+    
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -174,10 +202,10 @@
     [UIImageJPEGRepresentation(portraitImg, 0.5) writeToFile:imageFilePath  atomically:YES];
     
 //    slimage://imagemd5
-    NSString *data = [NSString stringWithFormat:@"slimage://%@",imageMD5];
-    [_bridge callHandler:@"savephoto" data:data responseCallback:^(id response) {
-        NSLog(@"savephoto responded: %@", response);
-    }];
+//    NSString *data = [NSString stringWithFormat:@"slimage://%@",imageMD5];
+//    [_bridge callHandler:@"savephoto" data:data responseCallback:^(id response) {
+//        NSLog(@"savephoto responded: %@", response);
+//    }];
     
 }
 

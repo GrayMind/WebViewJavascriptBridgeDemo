@@ -32,6 +32,7 @@ static NSString * const MMPopupViewHideAllNotification = @"MMPopupViewHideAllNot
 {
     self.type = MMPopupTypeAlert;
     self.animationDuration = 0.3f;
+    self.attachedView = [MMPopupWindow sharedWindow].attachView;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notifyHideAll:) name:MMPopupViewHideAllNotification object:nil];
 }

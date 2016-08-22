@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		01351E8F1D338A8300EA23E1 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01351E8E1D338A8300EA23E1 /* CoreMedia.framework */; };
 		01351E921D339BE000EA23E1 /* NSURLProtocolCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 01351E911D339BE000EA23E1 /* NSURLProtocolCustom.m */; };
+		015389DE1D6AE75900A87483 /* SiLinJSBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 015389DD1D6AE75900A87483 /* SiLinJSBridge.m */; };
 		01D7A9691D267A52003F31A5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D7A9681D267A52003F31A5 /* main.m */; };
 		01D7A96C1D267A52003F31A5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D7A96B1D267A52003F31A5 /* AppDelegate.m */; };
 		01D7A96F1D267A52003F31A5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D7A96E1D267A52003F31A5 /* ViewController.m */; };
@@ -18,7 +19,6 @@
 		01D7A9821D267A52003F31A5 /* WebViewJavascriptBridgeDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D7A9811D267A52003F31A5 /* WebViewJavascriptBridgeDemoTests.m */; };
 		01D7A98D1D267A52003F31A5 /* WebViewJavascriptBridgeDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D7A98C1D267A52003F31A5 /* WebViewJavascriptBridgeDemoUITests.m */; };
 		01D7A99C1D267D7C003F31A5 /* JSWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D7A99B1D267D7C003F31A5 /* JSWebViewController.m */; };
-		01D7A99F1D27BEAB003F31A5 /* NSObject+performSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D7A99E1D27BEAB003F31A5 /* NSObject+performSelector.m */; };
 		57129321EF3790ADE09D7590 /* libPods-WebViewJavascriptBridgeDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED541F28C619E8562C3AC50 /* libPods-WebViewJavascriptBridgeDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +43,8 @@
 		01351E8E1D338A8300EA23E1 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		01351E901D339BE000EA23E1 /* NSURLProtocolCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSURLProtocolCustom.h; sourceTree = "<group>"; };
 		01351E911D339BE000EA23E1 /* NSURLProtocolCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLProtocolCustom.m; sourceTree = "<group>"; };
+		015389DC1D6AE75900A87483 /* SiLinJSBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SiLinJSBridge.h; sourceTree = "<group>"; };
+		015389DD1D6AE75900A87483 /* SiLinJSBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SiLinJSBridge.m; sourceTree = "<group>"; };
 		01D7A9641D267A51003F31A5 /* WebViewJavascriptBridgeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebViewJavascriptBridgeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01D7A9681D267A52003F31A5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		01D7A96A1D267A52003F31A5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -61,8 +63,6 @@
 		01D7A98E1D267A52003F31A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		01D7A99A1D267D7C003F31A5 /* JSWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSWebViewController.h; sourceTree = "<group>"; };
 		01D7A99B1D267D7C003F31A5 /* JSWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSWebViewController.m; sourceTree = "<group>"; };
-		01D7A99D1D27BEAB003F31A5 /* NSObject+performSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+performSelector.h"; sourceTree = "<group>"; };
-		01D7A99E1D27BEAB003F31A5 /* NSObject+performSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+performSelector.m"; sourceTree = "<group>"; };
 		08A3A9D6D20E150DFE65C3D0 /* Pods-WebViewJavascriptBridgeDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebViewJavascriptBridgeDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-WebViewJavascriptBridgeDemo/Pods-WebViewJavascriptBridgeDemo.release.xcconfig"; sourceTree = "<group>"; };
 		1ED541F28C619E8562C3AC50 /* libPods-WebViewJavascriptBridgeDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WebViewJavascriptBridgeDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE947F48489FEF8E276CFDA4 /* Pods-WebViewJavascriptBridgeDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WebViewJavascriptBridgeDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WebViewJavascriptBridgeDemo/Pods-WebViewJavascriptBridgeDemo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -124,10 +124,10 @@
 				01D7A96B1D267A52003F31A5 /* AppDelegate.m */,
 				01D7A99A1D267D7C003F31A5 /* JSWebViewController.h */,
 				01D7A99B1D267D7C003F31A5 /* JSWebViewController.m */,
+				015389DC1D6AE75900A87483 /* SiLinJSBridge.h */,
+				015389DD1D6AE75900A87483 /* SiLinJSBridge.m */,
 				01351E901D339BE000EA23E1 /* NSURLProtocolCustom.h */,
 				01351E911D339BE000EA23E1 /* NSURLProtocolCustom.m */,
-				01D7A99D1D27BEAB003F31A5 /* NSObject+performSelector.h */,
-				01D7A99E1D27BEAB003F31A5 /* NSObject+performSelector.m */,
 				01D7A96D1D267A52003F31A5 /* ViewController.h */,
 				01D7A96E1D267A52003F31A5 /* ViewController.m */,
 				01D7A9701D267A52003F31A5 /* Main.storyboard */,
@@ -365,8 +365,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				01D7A96F1D267A52003F31A5 /* ViewController.m in Sources */,
+				015389DE1D6AE75900A87483 /* SiLinJSBridge.m in Sources */,
 				01351E921D339BE000EA23E1 /* NSURLProtocolCustom.m in Sources */,
-				01D7A99F1D27BEAB003F31A5 /* NSObject+performSelector.m in Sources */,
 				01D7A96C1D267A52003F31A5 /* AppDelegate.m in Sources */,
 				01D7A99C1D267D7C003F31A5 /* JSWebViewController.m in Sources */,
 				01D7A9691D267A52003F31A5 /* main.m in Sources */,
