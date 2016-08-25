@@ -17,51 +17,62 @@
 
 @implementation SiLinJSBridge
 
-
--(void)callImage
-{
-    NSLog(@"callImage");
-}
-
 -(void)chooseImageWithType:(JSValue *)type callback:(JSValue *)callback
 {
     NSInteger t = [type toInt32];
     NSLog(@"%ld",(long)t);
     self.imageCallback = callback;
     
-    [MMPopupWindow sharedWindow].touchWildToHide = YES;
-    MMSheetViewConfig *sheetConfig = [MMSheetViewConfig globalConfig];
-    sheetConfig.defaultTextCancel = @"取消";
     
-    MMPopupItemHandler block = ^(NSInteger index){
-        if (index == 0)
-        {
-            // 拍照
-            UIImagePickerController *controller = [[UIImagePickerController alloc] init];
-            controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            controller.delegate = self;
-            [self.viewController presentViewController:controller animated:YES completion:nil];
-        }
-        else if (index == 1)
-        {
-            UIImagePickerController *controller = [[UIImagePickerController alloc] init];
-            controller.sourceType = UIImagePickerControllerSourceTypeCamera;
-            controller.delegate = self;
-            [self.viewController presentViewController:controller animated:YES completion:nil];
-        }
-        
-    };
+    if (t == 0)
+    {
+        // 拍照
+        UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+        controller.sourceType = UIImagePickerControllerSourceTypeCamera;
+        controller.delegate = self;
+        [self.viewController presentViewController:controller animated:YES completion:nil];
+    }
+    else if(t == 1)
+    {
+        UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+        controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        controller.delegate = self;
+        [self.viewController presentViewController:controller animated:YES completion:nil];
+    }
     
-    MMPopupCompletionBlock completeBlock = ^(MMPopupView *popupView, BOOL finish){
-        NSLog(@"animation complete");
-    };
-    
-    NSArray *items =
-    @[MMItemMake(@"相册", MMItemTypeNormal, block),
-      MMItemMake(@"拍照", MMItemTypeNormal, block)];
-    
-    [[[MMSheetView alloc] initWithTitle:@"照片选择"
-                                  items:items] showWithBlock:completeBlock];
+//    [MMPopupWindow sharedWindow].touchWildToHide = YES;
+//    MMSheetViewConfig *sheetConfig = [MMSheetViewConfig globalConfig];
+//    sheetConfig.defaultTextCancel = @"取消";
+//    
+//    MMPopupItemHandler block = ^(NSInteger index){
+//        if (index == 0)
+//        {
+//            // 拍照
+//            UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+//            controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//            controller.delegate = self;
+//            [self.viewController presentViewController:controller animated:YES completion:nil];
+//        }
+//        else if (index == 1)
+//        {
+//            UIImagePickerController *controller = [[UIImagePickerController alloc] init];
+//            controller.sourceType = UIImagePickerControllerSourceTypeCamera;
+//            controller.delegate = self;
+//            [self.viewController presentViewController:controller animated:YES completion:nil];
+//        }
+//        
+//    };
+//    
+//    MMPopupCompletionBlock completeBlock = ^(MMPopupView *popupView, BOOL finish){
+//        NSLog(@"animation complete");
+//    };
+//    
+//    NSArray *items =
+//    @[MMItemMake(@"相册", MMItemTypeNormal, block),
+//      MMItemMake(@"拍照", MMItemTypeNormal, block)];
+//    
+//    [[[MMSheetView alloc] initWithTitle:@"照片选择"
+//                                  items:items] showWithBlock:completeBlock];
     
 }
 

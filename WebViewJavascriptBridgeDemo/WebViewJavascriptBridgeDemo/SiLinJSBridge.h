@@ -18,8 +18,6 @@
 
 -(void)chooseImageWithType:(JSValue *)type callback:(JSValue *)callback;
 
--(void)callImage;
-
 @end
 
 

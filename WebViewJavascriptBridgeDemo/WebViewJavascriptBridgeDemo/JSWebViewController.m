@@ -44,6 +44,7 @@
     self.webView = [[UIWebView alloc] init];
     self.webView.delegate = self;
     self.webView.frame = CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64);
+    self.webView.scrollView.bounces = NO;
     [self.view addSubview:self.webView];
     
     [NSURLProtocol registerClass:[NSURLProtocolCustom class]];
@@ -51,7 +52,7 @@
     
 //    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.1.104:3000/mypa.html"]];
 //    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://csmobile.alipay.com/mypa/chat.htm?scene=app_mypa_robot"]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.1.109:3000/index.html"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.1.103:3000/index.html"]];
     [self.webView loadRequest:request];
     
 }
