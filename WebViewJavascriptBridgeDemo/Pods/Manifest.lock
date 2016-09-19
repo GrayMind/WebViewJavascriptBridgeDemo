@@ -1,4 +1,19 @@
 PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
   - IQKeyboardManager (3.3.7)
   - Masonry (1.0.1)
   - MMPopupView (1.7.2):
@@ -6,17 +21,19 @@ PODS:
   - WebViewJavascriptBridge (5.0.5)
 
 DEPENDENCIES:
+  - AFNetworking
   - IQKeyboardManager (= 3.3.7)
   - Masonry
   - MMPopupView
   - WebViewJavascriptBridge
 
 SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   IQKeyboardManager: 249c3946acf61345c18b038eb50863fe2793e3a8
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   MMPopupView: fe1dd010824029dfb632fdf1a531db5dd5386020
   WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
 
-PODFILE CHECKSUM: 2e765296f928bec237d5ae9366581fc951383fd4
+PODFILE CHECKSUM: 778e2678f6a364d902f1ac1d1054b6403dd4fe4d
 
 COCOAPODS: 1.0.1

@@ -19,13 +19,15 @@
 
 #import "SiLinJSBridge.h"
 
-@interface JSWebViewController ()<UIWebViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface JSWebViewController ()< UIWebViewDelegate >
 
 @property(nonatomic ,strong) UIWebView *webView;
 
 @property WebViewJavascriptBridge* bridge;
 
 @property(nonatomic ,strong) JSContext *context;
+
+@property(nonatomic ,assign) long long lastChangeTime;
 
 @end
 
@@ -38,7 +40,7 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"reload" style:UIBarButtonItemStylePlain target:self action:@selector(reload)];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"call" style:UIBarButtonItemStylePlain target:self action:@selector(callJSMethod)];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"call" style:UIBarButtonItemStylePlain target:self action:@selector(callJSMethod)];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.webView = [[UIWebView alloc] init];
@@ -52,79 +54,64 @@
     
 //    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.1.104:3000/mypa.html"]];
 //    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://csmobile.alipay.com/mypa/chat.htm?scene=app_mypa_robot"]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.1.103:3000/index.html"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.1.108:3000/index.html"]];
     [self.webView loadRequest:request];
     
+    self.lastChangeTime = 0;
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardDidShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHidden:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardFrameChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
--(void)callJSMethod
-{
-    JSValue *value = self.context[@"area"];
-    [value callWithArguments:@[@4]];
-}
-
+#pragma mark -
 
 -(void)reload
 {
     [self.webView reload];
 }
 
-
--(void)photo
+#pragma mark -
+-(void)keyboardShow:(NSNotification *)noti
 {
+    NSLog(@"keyboardShow:\n %@", noti);
+    if (self.webView.frame.size.height == self.view.bounds.size.height- 64 - 302) {
+        return;
+    }
     
-    [MMPopupWindow sharedWindow].touchWildToHide = YES;
-    MMSheetViewConfig *sheetConfig = [MMSheetViewConfig globalConfig];
-    sheetConfig.defaultTextCancel = @"取消";
+    self.webView.frame = CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height- 64 - 302);
+
+}
+-(void)keyboardHidden:(NSNotification *)noti
+{
+    NSLog(@"keyboardHidden:\n %@", noti);
+    self.webView.frame = CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height- 64);
+}
+-(void)keyboardFrameChange:(NSNotification *)noti
+{
+    NSLog(@"keyboardFrameChange:\n %@", noti);
+    NSDictionary *userInfo = noti.userInfo;
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect endUserInfoKey = [aValue CGRectValue];
+    CGFloat y = endUserInfoKey.origin.y;
     
-    MMPopupItemHandler block = ^(NSInteger index){
-        if (index == 0)
-        {
-            // 拍照
-            UIImagePickerController *controller = [[UIImagePickerController alloc] init];
-            controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            controller.delegate = self;
-            [self presentViewController:controller animated:YES completion:nil];
-        }
-        else if (index == 1)
-        {
-            UIImagePickerController *controller = [[UIImagePickerController alloc] init];
-            controller.sourceType = UIImagePickerControllerSourceTypeCamera;
-            controller.delegate = self;
-            [self presentViewController:controller animated:YES completion:nil];
-        }
-        
-    };
-    
-    MMPopupCompletionBlock completeBlock = ^(MMPopupView *popupView, BOOL finish){
-        NSLog(@"animation complete");
-    };
-    
-    NSArray *items =
-    @[MMItemMake(@"相册", MMItemTypeNormal, block),
-      MMItemMake(@"拍照", MMItemTypeNormal, block)];
-    
-    [[[MMSheetView alloc] initWithTitle:@"照片选择"
-                                  items:items] showWithBlock:completeBlock];
+    [UIView animateWithDuration:0.25 animations:^{
+        self.webView.frame = CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height- 64 - (self.view.bounds.size.height - y ));
+    }];
     
 }
 
--(NSString *)imageMD5:(UIImage *)image
+
+-(long long)getDateTimeToMilliSeconds:(NSDate *)datetime
 {
-    unsigned char result[CC_MD5_DIGEST_LENGTH];
-    NSData *imageData = [NSData dataWithData:UIImagePNGRepresentation(image)];
-    CC_MD5([imageData bytes], (CC_LONG)[imageData length], result);
-    NSString *imageHash = [NSString stringWithFormat:
-                           @"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
-                           result[0], result[1], result[2], result[3],
-                           result[4], result[5], result[6], result[7],
-                           result[8], result[9], result[10], result[11],
-                           result[12], result[13], result[14], result[15]
-                           ];
-    
-    return imageHash;
+    NSTimeInterval interval = [datetime timeIntervalSince1970];
+    NSLog(@"转换的时间戳=%f",interval);
+    long long totalMilliseconds = interval * 1000 ;
+    NSLog(@"totalMilliseconds=%llu",totalMilliseconds);
+    return totalMilliseconds;
 }
 
+#pragma mark UIWebViewDelegate
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
@@ -139,9 +126,7 @@
     self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     // Undocumented access to UIWebView's JSContext
     self.context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-   
-    
-    
+       
     SiLinJSBridge *call = [[SiLinJSBridge alloc] init];
     //将JSNativeMethod封装到JavaScript函数SiLinJSBridge中
     self.context[@"SiLinJSBridge"] = call;
@@ -153,19 +138,6 @@
         context.exception = exceptionValue;
         NSLog(@"%@", exceptionValue);
     };
-    
-//    // 以 JSExport 协议关联 native 的方法
-//    self.context[@"app"] = self;
-//    
-//    // 以 block 形式关联 JavaScript function
-//    self.context[@"log"] = ^(NSString *str) {
-//        NSLog(@"%@", str);
-//    };
-//    //多参数
-//    self.context[@"mutiParams"] = ^(NSString *a,NSString *b,NSString *c) {
-//        NSLog(@"%@ %@ %@",a,b,c);
-//    };
-    
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -174,46 +146,7 @@
     return YES;
 }
 
-#pragma mark UIImagePickerControllerDelegate
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    
-    UIImage *portraitImg = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-    UIImageOrientation imageOrientation = portraitImg.imageOrientation;
-    
-    if(imageOrientation != UIImageOrientationUp)
-    {
-        // 原始图片可以根据照相时的角度来显示，但UIImage无法判定，于是出现获取的图片会向左转９０度的现象。
-        // 以下为调整图片角度的部分
-        UIGraphicsBeginImageContext(portraitImg.size);
-        [portraitImg drawInRect:CGRectMake(0, 0, portraitImg.size.width, portraitImg.size.height)];
-        portraitImg = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        // 调整图片角度完毕
-    }
-    
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    
-    NSString *imageMD5 = [self imageMD5:portraitImg];
-    
-    NSString *path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
-    // 拼接图片名为"currentImage.png"的路径
-    NSString *imageFilePath = [path stringByAppendingPathComponent:imageMD5];
-    //其中参数0.5表示压缩比例，1表示不压缩，数值越小压缩比例越大
-    [UIImageJPEGRepresentation(portraitImg, 0.5) writeToFile:imageFilePath  atomically:YES];
-    
-//    slimage://imagemd5
-//    NSString *data = [NSString stringWithFormat:@"slimage://%@",imageMD5];
-//    [_bridge callHandler:@"savephoto" data:data responseCallback:^(id response) {
-//        NSLog(@"savephoto responded: %@", response);
-//    }];
-    
-}
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [picker dismissViewControllerAnimated:YES completion:nil];
-}
 
 
 @end

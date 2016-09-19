@@ -8,20 +8,60 @@
 
 #import "SiLinJSBridge.h"
 
+#import <AFNetworking.h>
+
 @interface SiLinJSBridge ()
 
 @property(nonatomic ,strong) JSValue *imageCallback;
+
+@property(nonatomic ,assign) CGFloat keyboardH;
+
 
 @end
 
 
 @implementation SiLinJSBridge
 
+
+#pragma mark - life cycle
+-(instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        _keyboardH = 0;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    }
+    
+    return self;
+}
+
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - SiLinJSObjectProtocol
+
+-(CGFloat)keyboardHeight
+{
+    if (_keyboardH != 0) {
+        return _keyboardH;
+    }
+    return 305;
+}
+
 -(void)chooseImageWithType:(JSValue *)type callback:(JSValue *)callback
 {
     NSInteger t = [type toInt32];
-    NSLog(@"%ld",(long)t);
-    self.imageCallback = callback;
+//    NSLog(@"%ld",(long)t);
+    
+    if(!self.imageCallback)
+    {
+        self.imageCallback = callback;
+    }
+    
     
     
     if (t == 0)
@@ -39,44 +79,12 @@
         controller.delegate = self;
         [self.viewController presentViewController:controller animated:YES completion:nil];
     }
-    
-//    [MMPopupWindow sharedWindow].touchWildToHide = YES;
-//    MMSheetViewConfig *sheetConfig = [MMSheetViewConfig globalConfig];
-//    sheetConfig.defaultTextCancel = @"取消";
-//    
-//    MMPopupItemHandler block = ^(NSInteger index){
-//        if (index == 0)
-//        {
-//            // 拍照
-//            UIImagePickerController *controller = [[UIImagePickerController alloc] init];
-//            controller.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-//            controller.delegate = self;
-//            [self.viewController presentViewController:controller animated:YES completion:nil];
-//        }
-//        else if (index == 1)
-//        {
-//            UIImagePickerController *controller = [[UIImagePickerController alloc] init];
-//            controller.sourceType = UIImagePickerControllerSourceTypeCamera;
-//            controller.delegate = self;
-//            [self.viewController presentViewController:controller animated:YES completion:nil];
-//        }
-//        
-//    };
-//    
-//    MMPopupCompletionBlock completeBlock = ^(MMPopupView *popupView, BOOL finish){
-//        NSLog(@"animation complete");
-//    };
-//    
-//    NSArray *items =
-//    @[MMItemMake(@"相册", MMItemTypeNormal, block),
-//      MMItemMake(@"拍照", MMItemTypeNormal, block)];
-//    
-//    [[[MMSheetView alloc] initWithTitle:@"照片选择"
-//                                  items:items] showWithBlock:completeBlock];
-    
 }
 
 
+#pragma mark - privace method
+
+// 获取图片 MD5
 -(NSString *)imageMD5:(UIImage *)image
 {
     unsigned char result[CC_MD5_DIGEST_LENGTH];
@@ -91,6 +99,58 @@
                            ];
     
     return imageHash;
+}
+
+// 上传图片
+-(void)uploadImage:(UIImage *)image MD5Url:(NSString *)imgUrl
+{
+    NSString *url = @"http://121.42.201.123:20091/chime/api/v1/upload";
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager.requestSerializer setValue:@"iOS.1234567890" forHTTPHeaderField:@"X-Client-Id"];
+    [manager.requestSerializer setValue:@"dongya" forHTTPHeaderField:@"X-App-Id"];
+    [manager.requestSerializer setValue:@"f5e424137912485a15d1447a50669ce6" forHTTPHeaderField:@"X-Token"];
+
+    NSData *imgData = UIImageJPEGRepresentation(image, 0.05);
+    
+    [manager POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        [formData appendPartWithFileData:imgData name:@"pic" fileName:@"image.jpg" mimeType:@"image/png"];
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+//        CGFloat fractionCompleted = uploadProgress.fractionCompleted;
+        NSLog(@"%f", 1.0 * uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
+//        NSLog(@"%f", uploadProgress.fractionCompleted);
+        NSNumber *prog = [NSNumber numberWithDouble:1.0 * uploadProgress.completedUnitCount / uploadProgress.totalUnitCount];
+        [self.imageCallback invokeMethod:@"uploadImageProgress" withArguments:@[imgUrl, prog]];
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"success :%@", imgUrl);
+        [self.imageCallback invokeMethod:@"uploadImageSuccess" withArguments:@[imgUrl]];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"failure :%@", imgUrl);
+       
+        NSString *errorStr = [[NSString alloc] initWithData:(NSData *)error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
+        
+        NSString *errorMessage = @"";
+        
+        if (![errorStr isEqual: [NSNull null]] && errorStr.length > 0)
+        {
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:(NSData *)error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] options:NSJSONReadingMutableLeaves error:nil];
+            errorMessage = dic[@"message"];
+        }
+        NSLog(@"%@", error);
+        NSLog(@"%@", errorMessage);
+    }];
+
+}
+
+
+
+-(void)keyboardWillShow:(NSNotification *)noti
+{
+    NSDictionary *userInfo = noti.userInfo;
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect userInfoKey = [aValue CGRectValue];
+    _keyboardH = userInfoKey.size.height;
 }
 
 #pragma mark UIImagePickerControllerDelegate
@@ -121,12 +181,11 @@
     //其中参数0.5表示压缩比例，1表示不压缩，数值越小压缩比例越大
     [UIImageJPEGRepresentation(portraitImg, 0.5) writeToFile:imageFilePath  atomically:YES];
     
-    //    slimage://imagemd5
+    // slimage://imagemd5
     NSString *data = [NSString stringWithFormat:@"slimage://%@",imageMD5];
-    
-    
     //
     [self.imageCallback invokeMethod:@"chooseImageSuccess" withArguments:@[data]];
+    [self uploadImage:portraitImg MD5Url:data];
     
 }
 

@@ -18,6 +18,9 @@
 
 -(void)chooseImageWithType:(JSValue *)type callback:(JSValue *)callback;
 
+
+-(CGFloat)keyboardHeight;
+
 @end
 
 
