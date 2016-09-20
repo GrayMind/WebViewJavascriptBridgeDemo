@@ -9,13 +9,15 @@
 #import "SiLinJSBridge.h"
 
 #import <AFNetworking.h>
+#import <MWPhotoBrowser.h>
 
-@interface SiLinJSBridge ()
+@interface SiLinJSBridge ()<MWPhotoBrowserDelegate>
 
 @property(nonatomic ,strong) JSValue *imageCallback;
 
 @property(nonatomic ,assign) CGFloat keyboardH;
 
+@property(nonatomic ,strong) NSMutableArray *photoArray;
 
 @end
 
@@ -52,17 +54,20 @@
     return 305;
 }
 
+/**
+ *  选择图片
+ *
+ *  @param type     0：拍照； 1：相册
+ *  @param callback 选择/上传图片回调
+ */
 -(void)chooseImageWithType:(JSValue *)type callback:(JSValue *)callback
 {
     NSInteger t = [type toInt32];
-//    NSLog(@"%ld",(long)t);
     
     if(!self.imageCallback)
     {
         self.imageCallback = callback;
     }
-    
-    
     
     if (t == 0)
     {
@@ -79,6 +84,48 @@
         controller.delegate = self;
         [self.viewController presentViewController:controller animated:YES completion:nil];
     }
+}
+
+-(void)previewImage:(JSValue *)imageUrl
+{
+    NSString *image = [imageUrl toString];
+    NSURL *url = [NSURL URLWithString:image];
+    if ([image hasPrefix:@"slimage://"])
+    {
+        image = [image stringByReplacingOccurrencesOfString:@"slimage://" withString:@""];
+        NSString *path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+        // 拼接图片路径
+        NSString *imageFilePath = [path stringByAppendingPathComponent:image];
+        
+        url = [NSURL fileURLWithPath:imageFilePath];
+    }
+    
+    self.photoArray = [NSMutableArray array];
+    // Add photos
+    [self.photoArray addObject:[MWPhoto photoWithURL:url]];
+    NSLog(@"previewImage %@", [imageUrl toString]);
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    
+    // Set options
+    browser.displayActionButton = YES; // Show action button to allow sharing, copying, etc (defaults to YES)
+    browser.displayNavArrows = NO; // Whether to display left and right nav arrows on toolbar (defaults to NO)
+    browser.displaySelectionButtons = NO; // Whether selection buttons are shown on each image (defaults to NO)
+    browser.zoomPhotosToFill = YES; // Images that almost fill the screen will be initially zoomed to fill (defaults to YES)
+    browser.alwaysShowControls = NO; // Allows to control whether the bars and controls are always visible or whether they fade away to show the photo full (defaults to NO)
+    browser.enableGrid = YES; // Whether to allow the viewing of all the photo thumbnails on a grid (defaults to YES)
+    browser.startOnGrid = NO; // Whether to start on the grid of thumbnails instead of the first photo (defaults to NO)
+    browser.autoPlayOnAppear = NO; // Auto-play first video
+    
+    // Customise selection images to change colours if required
+    browser.customImageSelectedIconName = @"ImageSelected.png";
+    browser.customImageSelectedSmallIconName = @"ImageSelectedSmall.png";
+    
+    // Optionally set the current visible photo before displaying
+    [browser setCurrentPhotoIndex:1];
+    
+    // Present
+    [self.navigationController pushViewController:browser animated:YES];
+
 }
 
 
@@ -176,7 +223,7 @@
     NSString *imageMD5 = [self imageMD5:portraitImg];
     
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
-    // 拼接图片名为"currentImage.png"的路径
+    // 拼接图片路径
     NSString *imageFilePath = [path stringByAppendingPathComponent:imageMD5];
     //其中参数0.5表示压缩比例，1表示不压缩，数值越小压缩比例越大
     [UIImageJPEGRepresentation(portraitImg, 0.5) writeToFile:imageFilePath  atomically:YES];
@@ -193,5 +240,19 @@
 {
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
+
+
+#pragma mark -
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return self.photoArray.count;
+}
+
+- (id <MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < self.photoArray.count) {
+        return [self.photoArray objectAtIndex:index];
+    }
+    return nil;
+}
+
 
 @end

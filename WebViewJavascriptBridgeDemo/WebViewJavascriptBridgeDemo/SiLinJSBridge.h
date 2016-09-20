@@ -18,6 +18,7 @@
 
 -(void)chooseImageWithType:(JSValue *)type callback:(JSValue *)callback;
 
+-(void)previewImage:(JSValue *)imageUrl;
 
 -(CGFloat)keyboardHeight;
 
@@ -28,6 +29,7 @@
 
 @property (nonatomic, weak) JSContext *jsContext;
 @property (nonatomic, weak) UIViewController *viewController;
+@property (nonatomic, weak) UINavigationController *navigationController;
 
 
 @end

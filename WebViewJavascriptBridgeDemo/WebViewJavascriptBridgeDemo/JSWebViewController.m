@@ -132,7 +132,7 @@
     self.context[@"SiLinJSBridge"] = call;
     call.jsContext = self.context;
     call.viewController = self;
-    
+    call.navigationController = self.navigationController;
     // 打印异常
     self.context.exceptionHandler = ^(JSContext *context, JSValue *exceptionValue) {
         context.exception = exceptionValue;
