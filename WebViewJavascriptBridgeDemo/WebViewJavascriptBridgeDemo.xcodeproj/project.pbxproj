@@ -11,6 +11,21 @@
 		01351E921D339BE000EA23E1 /* NSURLProtocolCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 01351E911D339BE000EA23E1 /* NSURLProtocolCustom.m */; };
 		015389DE1D6AE75900A87483 /* SiLinJSBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 015389DD1D6AE75900A87483 /* SiLinJSBridge.m */; };
 		01C9C7601D90DBFA00087693 /* SLJSWebImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01C9C75F1D90DBFA00087693 /* SLJSWebImagePreviewController.m */; };
+		01CC8ED91D921E1300FE1EF2 /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CC8ED81D921E1300FE1EF2 /* iflyMSC.framework */; };
+		01CC8EDB1D921E5200FE1EF2 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CC8EDA1D921E5200FE1EF2 /* CoreLocation.framework */; };
+		01CC8EDD1D921E5F00FE1EF2 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CC8EDC1D921E5F00FE1EF2 /* CoreTelephony.framework */; };
+		01CC8EDF1D921E6600FE1EF2 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CC8EDE1D921E6600FE1EF2 /* AVFoundation.framework */; };
+		01CC8EE11D921E7000FE1EF2 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CC8EE01D921E7000FE1EF2 /* AddressBook.framework */; };
+		01CC8EE31D921E7D00FE1EF2 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CC8EE21D921E7D00FE1EF2 /* AudioToolbox.framework */; };
+		01CC8EE51D921E8400FE1EF2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CC8EE41D921E8400FE1EF2 /* SystemConfiguration.framework */; };
+		01CC8EE71D921E8D00FE1EF2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CC8EE61D921E8D00FE1EF2 /* QuartzCore.framework */; };
+		01CC8EE91D921E9900FE1EF2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CC8EE81D921E9900FE1EF2 /* UIKit.framework */; };
+		01CC8EEB1D921EA000FE1EF2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CC8EEA1D921EA000FE1EF2 /* Foundation.framework */; };
+		01CC8EED1D921EA900FE1EF2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CC8EEC1D921EA900FE1EF2 /* CoreGraphics.framework */; };
+		01CC8EEF1D921EB700FE1EF2 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CC8EEE1D921EB700FE1EF2 /* libz.tbd */; };
+		01CC8EF11D921ECD00FE1EF2 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 01CC8EF01D921ECD00FE1EF2 /* libc++.tbd */; };
+		01CC8EF41D93772300FE1EF2 /* IATConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 01CC8EF31D93772300FE1EF2 /* IATConfig.m */; };
+		01CC8EF71D93772F00FE1EF2 /* ISRDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 01CC8EF61D93772F00FE1EF2 /* ISRDataHelper.m */; };
 		01D7A9691D267A52003F31A5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D7A9681D267A52003F31A5 /* main.m */; };
 		01D7A96C1D267A52003F31A5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D7A96B1D267A52003F31A5 /* AppDelegate.m */; };
 		01D7A96F1D267A52003F31A5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 01D7A96E1D267A52003F31A5 /* ViewController.m */; };
@@ -48,6 +63,24 @@
 		015389DD1D6AE75900A87483 /* SiLinJSBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SiLinJSBridge.m; sourceTree = "<group>"; };
 		01C9C75E1D90DBFA00087693 /* SLJSWebImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLJSWebImagePreviewController.h; sourceTree = "<group>"; };
 		01C9C75F1D90DBFA00087693 /* SLJSWebImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLJSWebImagePreviewController.m; sourceTree = "<group>"; };
+		01CC8ED81D921E1300FE1EF2 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iflyMSC.framework; sourceTree = "<group>"; };
+		01CC8EDA1D921E5200FE1EF2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		01CC8EDC1D921E5F00FE1EF2 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		01CC8EDE1D921E6600FE1EF2 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		01CC8EE01D921E7000FE1EF2 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		01CC8EE21D921E7D00FE1EF2 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		01CC8EE41D921E8400FE1EF2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		01CC8EE61D921E8D00FE1EF2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		01CC8EE81D921E9900FE1EF2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		01CC8EEA1D921EA000FE1EF2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		01CC8EEC1D921EA900FE1EF2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		01CC8EEE1D921EB700FE1EF2 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		01CC8EF01D921ECD00FE1EF2 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		01CC8EF21D93772300FE1EF2 /* IATConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IATConfig.h; sourceTree = "<group>"; };
+		01CC8EF31D93772300FE1EF2 /* IATConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IATConfig.m; sourceTree = "<group>"; };
+		01CC8EF51D93772F00FE1EF2 /* ISRDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISRDataHelper.h; sourceTree = "<group>"; };
+		01CC8EF61D93772F00FE1EF2 /* ISRDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISRDataHelper.m; sourceTree = "<group>"; };
+		01CC8EF81D93774E00FE1EF2 /* Definition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Definition.h; sourceTree = "<group>"; };
 		01D7A9641D267A51003F31A5 /* WebViewJavascriptBridgeDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebViewJavascriptBridgeDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01D7A9681D267A52003F31A5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		01D7A96A1D267A52003F31A5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -76,6 +109,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01CC8EF11D921ECD00FE1EF2 /* libc++.tbd in Frameworks */,
+				01CC8EEF1D921EB700FE1EF2 /* libz.tbd in Frameworks */,
+				01CC8EED1D921EA900FE1EF2 /* CoreGraphics.framework in Frameworks */,
+				01CC8EEB1D921EA000FE1EF2 /* Foundation.framework in Frameworks */,
+				01CC8EE91D921E9900FE1EF2 /* UIKit.framework in Frameworks */,
+				01CC8EE71D921E8D00FE1EF2 /* QuartzCore.framework in Frameworks */,
+				01CC8EE51D921E8400FE1EF2 /* SystemConfiguration.framework in Frameworks */,
+				01CC8EE31D921E7D00FE1EF2 /* AudioToolbox.framework in Frameworks */,
+				01CC8EE11D921E7000FE1EF2 /* AddressBook.framework in Frameworks */,
+				01CC8EDF1D921E6600FE1EF2 /* AVFoundation.framework in Frameworks */,
+				01CC8EDD1D921E5F00FE1EF2 /* CoreTelephony.framework in Frameworks */,
+				01CC8EDB1D921E5200FE1EF2 /* CoreLocation.framework in Frameworks */,
+				01CC8ED91D921E1300FE1EF2 /* iflyMSC.framework in Frameworks */,
 				01351E8F1D338A8300EA23E1 /* CoreMedia.framework in Frameworks */,
 				57129321EF3790ADE09D7590 /* libPods-WebViewJavascriptBridgeDemo.a in Frameworks */,
 			);
@@ -140,6 +186,11 @@
 				01D7A9671D267A52003F31A5 /* Supporting Files */,
 				01C9C75E1D90DBFA00087693 /* SLJSWebImagePreviewController.h */,
 				01C9C75F1D90DBFA00087693 /* SLJSWebImagePreviewController.m */,
+				01CC8EF21D93772300FE1EF2 /* IATConfig.h */,
+				01CC8EF31D93772300FE1EF2 /* IATConfig.m */,
+				01CC8EF51D93772F00FE1EF2 /* ISRDataHelper.h */,
+				01CC8EF61D93772F00FE1EF2 /* ISRDataHelper.m */,
+				01CC8EF81D93774E00FE1EF2 /* Definition.h */,
 			);
 			path = WebViewJavascriptBridgeDemo;
 			sourceTree = "<group>";
@@ -182,6 +233,19 @@
 		DD9529E9FDFBE3511DB3F46B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				01CC8EF01D921ECD00FE1EF2 /* libc++.tbd */,
+				01CC8EEE1D921EB700FE1EF2 /* libz.tbd */,
+				01CC8EEC1D921EA900FE1EF2 /* CoreGraphics.framework */,
+				01CC8EEA1D921EA000FE1EF2 /* Foundation.framework */,
+				01CC8EE81D921E9900FE1EF2 /* UIKit.framework */,
+				01CC8EE61D921E8D00FE1EF2 /* QuartzCore.framework */,
+				01CC8EE41D921E8400FE1EF2 /* SystemConfiguration.framework */,
+				01CC8EE21D921E7D00FE1EF2 /* AudioToolbox.framework */,
+				01CC8EE01D921E7000FE1EF2 /* AddressBook.framework */,
+				01CC8EDE1D921E6600FE1EF2 /* AVFoundation.framework */,
+				01CC8EDC1D921E5F00FE1EF2 /* CoreTelephony.framework */,
+				01CC8EDA1D921E5200FE1EF2 /* CoreLocation.framework */,
+				01CC8ED81D921E1300FE1EF2 /* iflyMSC.framework */,
 				01351E8E1D338A8300EA23E1 /* CoreMedia.framework */,
 				1ED541F28C619E8562C3AC50 /* libPods-WebViewJavascriptBridgeDemo.a */,
 			);
@@ -372,9 +436,11 @@
 			files = (
 				01D7A96F1D267A52003F31A5 /* ViewController.m in Sources */,
 				015389DE1D6AE75900A87483 /* SiLinJSBridge.m in Sources */,
+				01CC8EF41D93772300FE1EF2 /* IATConfig.m in Sources */,
 				01C9C7601D90DBFA00087693 /* SLJSWebImagePreviewController.m in Sources */,
 				01351E921D339BE000EA23E1 /* NSURLProtocolCustom.m in Sources */,
 				01D7A96C1D267A52003F31A5 /* AppDelegate.m in Sources */,
+				01CC8EF71D93772F00FE1EF2 /* ISRDataHelper.m in Sources */,
 				01D7A99C1D267D7C003F31A5 /* JSWebViewController.m in Sources */,
 				01D7A9691D267A52003F31A5 /* main.m in Sources */,
 			);
@@ -519,6 +585,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = WebViewJavascriptBridgeDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -533,6 +604,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = WebViewJavascriptBridgeDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

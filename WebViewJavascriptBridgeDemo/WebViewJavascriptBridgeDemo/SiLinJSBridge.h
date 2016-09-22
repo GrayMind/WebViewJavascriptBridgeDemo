@@ -16,11 +16,20 @@
 //首先创建一个实现了JSExport协议的协议
 @protocol SiLinJSObjectProtocol <JSExport>
 
+
+-(CGFloat)keyboardHeight;
+
+// 图片
 -(void)chooseImageWithType:(JSValue *)type callback:(JSValue *)callback;
 
 -(void)previewImage:(JSValue *)imageUrl;
 
--(CGFloat)keyboardHeight;
+
+//录音
+-(void)startRecording:(JSValue *)callback;
+-(void)cancelRecording:(JSValue *)callback;
+-(void)endRecording:(JSValue *)callback; // 手动停止
+-(void)onVoiceRecordEnd:(JSValue *)callback;
 
 @end
 
