@@ -358,15 +358,26 @@
         [_iFlySpeechRecognizer setDelegate:self];
         
         BOOL ret = [_iFlySpeechRecognizer startListening];
-        if (!ret)
-        {
-            NSLog(@"启动识别服务失败，请稍后重试");
-            [callback callWithArguments:@[@0]];
-        }
-        else
-        {
-            [callback callWithArguments:@[@1]];
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!ret)
+            {
+                NSLog(@"启动识别服务失败，请稍后重试");
+                [callback callWithArguments:@[@0]];
+            }
+            else
+            {
+                [callback callWithArguments:nil];
+            }
+        });
+//        if (!ret)
+//        {
+//            NSLog(@"启动识别服务失败，请稍后重试");
+//            [callback callWithArguments:@[@0]];
+//        }
+//        else
+//        {
+//            [callback callWithArguments:nil];
+//        }
     }
     
 }
@@ -377,7 +388,9 @@
     self.isCanceled = YES;
     [_iFlySpeechRecognizer cancel];
     
-    [callback callWithArguments:@[]];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [callback callWithArguments:@[]];
+    });
 }
 
 // 手动结束录音
@@ -494,21 +507,24 @@
     {
         NSLog(@"听写结果(json)：%@",  _result);
         
-        if (self.isStop)
-        {
-            if(self.manualStopCallback)
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (self.isStop)
             {
-                [self.manualStopCallback callWithArguments:@[_result]];
+                if(self.manualStopCallback)
+                {
+                    [self.manualStopCallback callWithArguments:@[_result]];
+                }
             }
-        }
-        else
-        {
-            if(self.autoStopCallback)
+            else
             {
-                [self.autoStopCallback callWithArguments:@[_result]];
+                if(self.autoStopCallback)
+                {
+                    [self.autoStopCallback callWithArguments:@[_result]];
+                }
+                
             }
-            
-        }
+
+        });
     }
     NSLog(@"_result=%@",_result);
     NSLog(@"isLast=%d",isLast);

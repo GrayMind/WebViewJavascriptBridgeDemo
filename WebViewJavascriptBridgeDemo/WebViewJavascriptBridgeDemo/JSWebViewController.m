@@ -7,6 +7,7 @@
 //
 
 #import "JSWebViewController.h"
+#import "JSWebConfigViewController.h"
 
 #import <WebViewJavascriptBridge.h>
 #import <MMSheetView.h>
@@ -17,6 +18,7 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 
 
+#import "SLConfigModel.h"
 #import "SiLinJSBridge.h"
 
 @interface JSWebViewController ()< UIWebViewDelegate >
@@ -40,7 +42,7 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"reload" style:UIBarButtonItemStylePlain target:self action:@selector(reload)];
     
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"call" style:UIBarButtonItemStylePlain target:self action:@selector(callJSMethod)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"url" style:UIBarButtonItemStylePlain target:self action:@selector(configUrl)];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.webView = [[UIWebView alloc] init];
@@ -54,7 +56,9 @@
     
 //    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.1.104:3000/mypa.html"]];
 //    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://csmobile.alipay.com/mypa/chat.htm?scene=app_mypa_robot"]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.1.108:3000/index.html"]];
+    
+    NSString *url = [[SLConfigModel shareInstant] fetchUrl];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [self.webView loadRequest:request];
     
     self.lastChangeTime = 0;
@@ -66,15 +70,25 @@
 
 #pragma mark -
 
+-(void)configUrl
+{
+    JSWebConfigViewController *vc = [[JSWebConfigViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 -(void)reload
 {
-    [self.webView reload];
+    NSString *url = [[SLConfigModel shareInstant] fetchUrl];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [self.webView loadRequest:request];
+    
+//    [self.webView reload];
 }
 
 #pragma mark -
 -(void)keyboardShow:(NSNotification *)noti
 {
-    NSLog(@"keyboardShow:\n %@", noti);
+//    NSLog(@"keyboardShow:\n %@", noti);
     if (self.webView.frame.size.height == self.view.bounds.size.height- 64 - 302) {
         return;
     }
@@ -84,12 +98,12 @@
 }
 -(void)keyboardHidden:(NSNotification *)noti
 {
-    NSLog(@"keyboardHidden:\n %@", noti);
+//    NSLog(@"keyboardHidden:\n %@", noti);
     self.webView.frame = CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height- 64);
 }
 -(void)keyboardFrameChange:(NSNotification *)noti
 {
-    NSLog(@"keyboardFrameChange:\n %@", noti);
+//    NSLog(@"keyboardFrameChange:\n %@", noti);
     NSDictionary *userInfo = noti.userInfo;
     NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
     CGRect endUserInfoKey = [aValue CGRectValue];
@@ -135,7 +149,7 @@
     call.navigationController = self.navigationController;
     // 打印异常
     self.context.exceptionHandler = ^(JSContext *context, JSValue *exceptionValue) {
-        context.exception = exceptionValue;
+//        context.exception = exceptionValue;
         NSLog(@"%@", exceptionValue);
     };
 }
