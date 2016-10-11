@@ -21,6 +21,8 @@
 #import "SLConfigModel.h"
 #import "SiLinJSBridge.h"
 
+#import "SLWebTitleView.h"
+
 @interface JSWebViewController ()< UIWebViewDelegate >
 
 @property(nonatomic ,strong) UIWebView *webView;
@@ -30,6 +32,9 @@
 @property(nonatomic ,strong) JSContext *context;
 
 @property(nonatomic ,assign) long long lastChangeTime;
+
+
+@property(nonatomic ,strong) SLWebTitleView *titleView;
 
 @end
 
@@ -43,6 +48,12 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"reload" style:UIBarButtonItemStylePlain target:self action:@selector(reload)];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"url" style:UIBarButtonItemStylePlain target:self action:@selector(configUrl)];
+    
+    
+    self.titleView = [[SLWebTitleView alloc] init];
+    self.titleView.frame = CGRectMake(0, 0, 35, 20);
+    self.navigationItem.titleView = self.titleView;
+    
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.webView = [[UIWebView alloc] init];
@@ -66,6 +77,11 @@
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardDidShowNotification object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHidden:) name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardFrameChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        self.titleView.showLoading = NO;
+//    });
 }
 
 #pragma mark -
@@ -78,6 +94,10 @@
 
 -(void)reload
 {
+    
+//    self.titleView.showLoading = !self.titleView.showLoading;
+//    return;
+    
     NSString *url = [[SLConfigModel shareInstant] fetchUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [self.webView loadRequest:request];
@@ -137,7 +157,10 @@
     NSLog(@"webViewDidFinishLoad");
     
     // 以 html title 设置 导航栏 title
-    self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+//    self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    self.titleView.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    
+    
     // Undocumented access to UIWebView's JSContext
     self.context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
        
@@ -147,6 +170,7 @@
     call.jsContext = self.context;
     call.viewController = self;
     call.navigationController = self.navigationController;
+    call.titleView = self.titleView;
     // 打印异常
     self.context.exceptionHandler = ^(JSContext *context, JSValue *exceptionValue) {
 //        context.exception = exceptionValue;

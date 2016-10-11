@@ -13,6 +13,8 @@
 #import "NSURLProtocolCustom.h"
 #import <CommonCrypto/CommonDigest.h>
 
+@class SLWebTitleView;
+
 //首先创建一个实现了JSExport协议的协议
 @protocol SiLinJSObjectProtocol <JSExport>
 
@@ -31,6 +33,11 @@
 -(void)endRecording:(JSValue *)callback; // 手动停止
 -(void)onVoiceRecordEnd:(JSValue *)callback;
 
+
+//加载更多
+-(void)showLoading:(JSValue *)show;
+
+
 @end
 
 
@@ -39,6 +46,6 @@
 @property (nonatomic, weak) JSContext *jsContext;
 @property (nonatomic, weak) UIViewController *viewController;
 @property (nonatomic, weak) UINavigationController *navigationController;
-
+@property (nonatomic, weak) SLWebTitleView *titleView;
 
 @end

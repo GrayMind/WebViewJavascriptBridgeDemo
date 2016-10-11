@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		011B2A3A1DA8E56B00EFB8D0 /* JSWebConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 011B2A391DA8E56B00EFB8D0 /* JSWebConfigViewController.m */; };
 		011B2A3D1DA8E59300EFB8D0 /* SLConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 011B2A3C1DA8E59300EFB8D0 /* SLConfigModel.m */; };
+		011B2A581DACBF4900EFB8D0 /* SLWebTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 011B2A571DACBF4900EFB8D0 /* SLWebTitleView.m */; };
 		01351E8F1D338A8300EA23E1 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01351E8E1D338A8300EA23E1 /* CoreMedia.framework */; };
 		01351E921D339BE000EA23E1 /* NSURLProtocolCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 01351E911D339BE000EA23E1 /* NSURLProtocolCustom.m */; };
 		015389DE1D6AE75900A87483 /* SiLinJSBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 015389DD1D6AE75900A87483 /* SiLinJSBridge.m */; };
@@ -62,6 +63,8 @@
 		011B2A391DA8E56B00EFB8D0 /* JSWebConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSWebConfigViewController.m; sourceTree = "<group>"; };
 		011B2A3B1DA8E59300EFB8D0 /* SLConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLConfigModel.h; sourceTree = "<group>"; };
 		011B2A3C1DA8E59300EFB8D0 /* SLConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLConfigModel.m; sourceTree = "<group>"; };
+		011B2A561DACBF4900EFB8D0 /* SLWebTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLWebTitleView.h; sourceTree = "<group>"; };
+		011B2A571DACBF4900EFB8D0 /* SLWebTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLWebTitleView.m; sourceTree = "<group>"; };
 		01351E8E1D338A8300EA23E1 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		01351E901D339BE000EA23E1 /* NSURLProtocolCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSURLProtocolCustom.h; sourceTree = "<group>"; };
 		01351E911D339BE000EA23E1 /* NSURLProtocolCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSURLProtocolCustom.m; sourceTree = "<group>"; };
@@ -201,6 +204,8 @@
 				01CC8EF51D93772F00FE1EF2 /* ISRDataHelper.h */,
 				01CC8EF61D93772F00FE1EF2 /* ISRDataHelper.m */,
 				01CC8EF81D93774E00FE1EF2 /* Definition.h */,
+				011B2A561DACBF4900EFB8D0 /* SLWebTitleView.h */,
+				011B2A571DACBF4900EFB8D0 /* SLWebTitleView.m */,
 			);
 			path = WebViewJavascriptBridgeDemo;
 			sourceTree = "<group>";
@@ -445,6 +450,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				011B2A3A1DA8E56B00EFB8D0 /* JSWebConfigViewController.m in Sources */,
+				011B2A581DACBF4900EFB8D0 /* SLWebTitleView.m in Sources */,
 				01D7A96F1D267A52003F31A5 /* ViewController.m in Sources */,
 				015389DE1D6AE75900A87483 /* SiLinJSBridge.m in Sources */,
 				01CC8EF41D93772300FE1EF2 /* IATConfig.m in Sources */,

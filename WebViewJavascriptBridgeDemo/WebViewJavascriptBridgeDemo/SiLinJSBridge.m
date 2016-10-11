@@ -16,6 +16,8 @@
 #import "ISRDataHelper.h"
 #import "IATConfig.h"
 
+#import "SLWebTitleView.h"
+
 @interface SiLinJSBridge ()<MWPhotoBrowserDelegate, IFlySpeechRecognizerDelegate>
 
 @property(nonatomic ,strong) JSValue *imageCallback;
@@ -531,6 +533,13 @@
 }
 
 
+
+#pragma mark - 
+-(void)showLoading:(JSValue *)show
+{
+//    NSLog(@"showLoading: %d", [show toBool]);
+    self.titleView.showLoading = [show toBool];
+}
 
 
 
