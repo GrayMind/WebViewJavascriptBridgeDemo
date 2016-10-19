@@ -86,6 +86,7 @@
     if(!self.imageCallback)
     {
         self.imageCallback = callback;
+        NSLog(@"%@", callback);
     }
     
     if (t == 0)
@@ -173,7 +174,7 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager.requestSerializer setValue:@"iOS.1234567890" forHTTPHeaderField:@"X-Client-Id"];
     [manager.requestSerializer setValue:@"dongya" forHTTPHeaderField:@"X-App-Id"];
-    [manager.requestSerializer setValue:@"f5e424137912485a15d1447a50669ce6" forHTTPHeaderField:@"X-Token"];
+    [manager.requestSerializer setValue:@"7c10ad9618c015177c4b380d8f90eb08" forHTTPHeaderField:@"X-Token"];
 
     NSData *imgData = UIImageJPEGRepresentation(image, 0.05);
     
