@@ -20,13 +20,11 @@
 
 @interface SiLinJSBridge ()<MWPhotoBrowserDelegate, IFlySpeechRecognizerDelegate>
 
-@property(nonatomic ,strong) JSValue *imageCallback;
+//@property(nonatomic ,strong) JSValue *imageCallback;
 
 @property(nonatomic ,assign) CGFloat keyboardH;
 
 @property(nonatomic ,strong) NSMutableArray *photoArray;
-
-
 
 
 //
@@ -38,8 +36,8 @@
 @property(nonatomic ,assign) BOOL isStop;//手动停止
 @property (nonatomic, strong) NSString * result;
 
-@property(nonatomic ,strong) JSValue *manualStopCallback; // 手动结束回调
-@property(nonatomic ,strong) JSValue *autoStopCallback; // 自动结束回调
+//@property(nonatomic ,strong) JSValue *manualStopCallback; // 手动结束回调
+//@property(nonatomic ,strong) JSValue *autoStopCallback; // 自动结束回调
 @end
 
 
@@ -79,15 +77,15 @@
  *  @param type     0：拍照； 1：相册
  *  @param callback 选择/上传图片回调
  */
--(void)chooseImageWithType:(JSValue *)type callback:(JSValue *)callback
+-(void)chooseImageWithType:(JSValue *)type
 {
     NSInteger t = [type toInt32];
     
-    if(!self.imageCallback)
-    {
-        self.imageCallback = callback;
-        NSLog(@"%@", callback);
-    }
+//    if(!self.imageCallback)
+//    {
+//        self.imageCallback = callback;
+//        NSLog(@"%@", callback);
+//    }
     
     if (t == 0)
     {
@@ -174,26 +172,37 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager.requestSerializer setValue:@"iOS.1234567890" forHTTPHeaderField:@"X-Client-Id"];
     [manager.requestSerializer setValue:@"dongya" forHTTPHeaderField:@"X-App-Id"];
-    [manager.requestSerializer setValue:@"7c10ad9618c015177c4b380d8f90eb08" forHTTPHeaderField:@"X-Token"];
+    [manager.requestSerializer setValue:@"87f33592a85ecbed410d8734907d421f" forHTTPHeaderField:@"X-Token"];
 
     NSData *imgData = UIImageJPEGRepresentation(image, 0.05);
     
     [manager POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [formData appendPartWithFileData:imgData name:@"pic" fileName:@"image.jpg" mimeType:@"image/png"];
     } progress:^(NSProgress * _Nonnull uploadProgress) {
-//        CGFloat fractionCompleted = uploadProgress.fractionCompleted;
+
         NSLog(@"%f", 1.0 * uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
-//        NSLog(@"%f", uploadProgress.fractionCompleted);
+
         NSNumber *prog = [NSNumber numberWithDouble:1.0 * uploadProgress.completedUnitCount / uploadProgress.totalUnitCount];
-        [self.imageCallback invokeMethod:@"uploadImageProgress" withArguments:@[imgUrl, prog]];
+        
+//        [self.imageCallback invokeMethod:@"uploadImageProgress" withArguments:@[imgUrl, prog]];
+        
+        NSString *code = [NSString stringWithFormat:@"window.SiLinJSBridgeWeb.uploadImageProgress(\"%@\", %@);",imgUrl, prog];
+        [self.jsContext evaluateScript:code];
+        
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"success :%@", imgUrl);
-        [self.imageCallback invokeMethod:@"uploadImageSuccess" withArguments:@[imgUrl]];
+//        [self.imageCallback invokeMethod:@"uploadImageSuccess" withArguments:@[imgUrl]];
+        
+        NSString *code = [NSString stringWithFormat:@"window.SiLinJSBridgeWeb.uploadImageSuccess(\"%@\");",imgUrl];
+        [self.jsContext evaluateScript:code];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"failure :%@", imgUrl);
        
+        NSString *code = [NSString stringWithFormat:@"window.SiLinJSBridgeWeb.uploadImageError(\"%@\");",imgUrl];
+        [self.jsContext evaluateScript:code];
+        
         NSString *errorStr = [[NSString alloc] initWithData:(NSData *)error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
         
         NSString *errorMessage = @"";
@@ -248,7 +257,10 @@
     // slimage://imagemd5
     NSString *data = [NSString stringWithFormat:@"slimage://%@",imageMD5];
     //
-    [self.imageCallback invokeMethod:@"chooseImageSuccess" withArguments:@[data]];
+//    [self.imageCallback invokeMethod:@"chooseImageSuccess" withArguments:@[data]];
+    NSString *code = [NSString stringWithFormat:@"window.SiLinJSBridgeWeb.chooseImageSuccess(\"%@\");",data];
+    [self.jsContext evaluateScript:code];
+    NSLog(@"%@", code);
     [self uploadImage:portraitImg MD5Url:data];
     
 }
@@ -331,7 +343,7 @@
 }
 
 // 开始录音
--(void)startRecording:(JSValue *)callback
+-(void)startRecording
 {
     NSLog(@"%s[IN]",__func__);
     
@@ -365,11 +377,12 @@
             if (!ret)
             {
                 NSLog(@"启动识别服务失败，请稍后重试");
-                [callback callWithArguments:@[@0]];
+//                [callback callWithArguments:@[@0]];
             }
             else
             {
-                [callback callWithArguments:nil];
+                NSLog(@"启动识别服务成功");
+//                [callback callWithArguments:nil];
             }
         });
 //        if (!ret)
@@ -386,31 +399,31 @@
 }
 
 // 取消录音
--(void)cancelRecording:(JSValue *)callback
+-(void)cancelRecording
 {
     self.isCanceled = YES;
     [_iFlySpeechRecognizer cancel];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [callback callWithArguments:@[]];
-    });
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        [callback callWithArguments:@[]];
+//    });
 }
 
 // 手动结束录音
--(void)endRecording:(JSValue *)callback
+-(void)endRecording
 {
     self.isStop = YES;
     [_iFlySpeechRecognizer stopListening];
     
-    self.manualStopCallback = callback;
+//    self.manualStopCallback = callback;
     
 //    [callback callWithArguments:@[]];
 }
 
 // 自动结束录音
--(void)onVoiceRecordEnd:(JSValue *)callback
+-(void)onVoiceRecordEnd
 {
-    self.autoStopCallback = callback;
+//    self.autoStopCallback = callback;
 }
 
 #pragma mark - IFlySpeechRecognizerDelegate
@@ -510,24 +523,29 @@
     {
         NSLog(@"听写结果(json)：%@",  _result);
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{ });
             if (self.isStop)
             {
-                if(self.manualStopCallback)
-                {
-                    [self.manualStopCallback callWithArguments:@[_result]];
-                }
+//                if(self.manualStopCallback)
+//                {
+//                    [self.manualStopCallback callWithArguments:@[_result]];
+//                }
+                
+                NSString *code = [NSString stringWithFormat:@"window.SiLinJSBridgeWeb.endRecording(\"%@\");",_result];
+                [self.jsContext evaluateScript:code];
             }
             else
             {
-                if(self.autoStopCallback)
-                {
-                    [self.autoStopCallback callWithArguments:@[_result]];
-                }
+                NSString *code = [NSString stringWithFormat:@"window.SiLinJSBridgeWeb.onVoiceRecordEnd(\"%@\");",_result];
+                [self.jsContext evaluateScript:code];
+//                if(self.autoStopCallback)
+//                {
+//                    [self.autoStopCallback callWithArguments:@[_result]];
+//                }
                 
             }
 
-        });
+//        });
     }
     NSLog(@"_result=%@",_result);
     NSLog(@"isLast=%d",isLast);

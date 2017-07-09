@@ -22,16 +22,22 @@
 -(CGFloat)keyboardHeight;
 
 // 图片
--(void)chooseImageWithType:(JSValue *)type callback:(JSValue *)callback;
+-(void)chooseImageWithType:(JSValue *)type;
+//-(void)chooseImageWithType:(JSValue *)type callback:(JSValue *)callback;
 
 -(void)previewImage:(JSValue *)imageUrl;
 
 
 //录音
--(void)startRecording:(JSValue *)callback;
--(void)cancelRecording:(JSValue *)callback;
--(void)endRecording:(JSValue *)callback; // 手动停止
--(void)onVoiceRecordEnd:(JSValue *)callback;
+//-(void)startRecording:(JSValue *)callback;
+//-(void)cancelRecording:(JSValue *)callback;
+//-(void)endRecording:(JSValue *)callback; // 手动停止
+//-(void)onVoiceRecordEnd:(JSValue *)callback;
+
+-(void)startRecording;
+-(void)cancelRecording;
+-(void)endRecording; // 手动停止
+-(void)onVoiceRecordEnd;
 
 
 //加载更多

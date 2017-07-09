@@ -31,7 +31,7 @@ static id instant = nil;
     self = [super init];
     if (self)
     {
-        _url = @"http://192.168.1.112:3000/index.html";
+        _url = @"http://192.168.1.106:3000/index.html";
     }
     return self;
 }
